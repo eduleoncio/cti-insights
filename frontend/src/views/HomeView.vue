@@ -1,1193 +1,176 @@
 <script setup>
-const recursos = [
-  {
-    titulo: 'Importação simplificada',
-    descricao:
-      'Envie arquivos XLSX, XLS ou CSV e transforme os dados em informações organizadas para análise.'
-  },
-  {
-    titulo: 'Indicadores claros',
-    descricao:
-      'Acompanhe métricas importantes da base de clientes em um painel simples e objetivo.'
-  },
-  {
-    titulo: 'Análise estratégica',
-    descricao:
-      'Identifique padrões, segmentos e oportunidades para apoiar decisões comerciais.'
-  }
-]
+import { onBeforeUnmount, onMounted, ref } from 'vue'
+
+const paginaRolada = ref(false)
+
+function verificarRolagem() {
+  paginaRolada.value = window.scrollY > 12
+}
+
+onMounted(() => {
+  verificarRolagem()
+  window.addEventListener('scroll', verificarRolagem, { passive: true })
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', verificarRolagem)
+})
 
 const etapas = [
-  {
-    numero: '01',
-    titulo: 'Importe',
-    descricao:
-      'Adicione sua planilha com os dados comerciais.'
-  },
-  {
-    numero: '02',
-    titulo: 'Organize',
-    descricao:
-      'O sistema padroniza e estrutura as informações.'
-  },
-  {
-    numero: '03',
-    titulo: 'Analise',
-    descricao:
-      'Visualize indicadores e encontre oportunidades.'
-  }
+  ['01', 'Importe a planilha', 'Envie a base que sua equipe já utiliza no dia a dia.'],
+  ['02', 'Analise os dados', 'Confira inconsistências e informações relevantes da base.'],
+  ['03', 'Gere resultados', 'Transforme os dados obtidos em uma visão para decidir melhor.']
+]
+
+const beneficios = [
+  ['PLANILHAS', 'Importação direta'],
+  ['ANÁLISE', 'Erros localizados'],
+  ['RESULTADOS', 'Informações organizadas']
 ]
 </script>
 
 <template>
-  <main
-    class="
-      min-h-screen
-      bg-[#09090b]
-      text-zinc-100
-    "
-  >
-
-    <!-- NAVBAR -->
-    <header
-      class="
-        fixed
-        inset-x-0
-        top-0
-        z-50
-        border-b
-        border-white/[0.06]
-        bg-[#09090b]/90
-        backdrop-blur-xl
-      "
-    >
-      <nav
-        class="
-          mx-auto
-          flex
-          h-18
-          max-w-7xl
-          items-center
-          justify-between
-          px-6
-          lg:px-8
-        "
-      >
-
-        <!-- LOGO -->
-        <router-link
-          to="/"
-          class="
-            flex
-            items-center
-            gap-3
-          "
-        >
-          <div
-            class="
-              flex
-              h-9
-              w-9
-              items-center
-              justify-center
-              rounded-lg
-              bg-blue-600
-              text-xs
-              font-bold
-              text-white
-            "
-          >
-            CTI
-          </div>
-
-          <div>
-            <p
-              class="
-                text-sm
-                font-semibold
-                text-white
-              "
-            >
-              CTI Insights
-            </p>
-
-            <p
-              class="
-                text-[11px]
-                text-zinc-500
-              "
-            >
-              Business intelligence
-            </p>
-          </div>
+  <main class="min-h-screen overflow-hidden bg-[#0d0f10] text-[#e9e7df]">
+    <header :class="[
+      'fixed inset-x-0 top-0 z-50 border-b transition-all duration-300',
+      paginaRolada
+        ? 'border-white/[0.12] bg-[#0d0f10]/72 shadow-[0_8px_30px_rgba(0,0,0,.18)] backdrop-blur-xl'
+        : 'border-white/[0.09] bg-[#0d0f10]'
+    ]">
+      <nav class="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 lg:px-8">
+        <router-link to="/" class="flex items-center gap-3">
+          <img src="/xinsight-logo.jpg" alt="Logo xInsight" class="h-10 w-10 border border-[#6fae55] object-cover object-center" />
+          <span class="leading-none">
+            <strong class="block text-sm tracking-[0.1em] text-[#f3f0e8]">xInsight</strong>
+            <small class="mt-1 block text-[10px] uppercase tracking-[0.16em] text-[#7f8885]">Base comercial</small>
+          </span>
         </router-link>
 
-        <!-- MENU -->
-        <div
-          class="
-            hidden
-            items-center
-            gap-8
-            text-sm
-            text-zinc-400
-            md:flex
-          "
-        >
-          <a
-            href="#produto"
-            class="
-              transition
-              hover:text-white
-            "
-          >
-            Produto
-          </a>
-
-          <a
-            href="#recursos"
-            class="
-              transition
-              hover:text-white
-            "
-          >
-            Recursos
-          </a>
-
-          <a
-            href="#como-funciona"
-            class="
-              transition
-              hover:text-white
-            "
-          >
-            Como funciona
-          </a>
+        <div class="hidden items-center gap-7 text-[11px] font-bold uppercase tracking-[0.14em] text-[#9da39f] md:flex">
+          <a href="#plataforma" class="transition hover:text-[#b7df9c]">Plataforma</a>
+          <a href="#processo" class="transition hover:text-[#b7df9c]">Processo</a>
         </div>
 
-        <!-- CTA -->
-        <router-link
-          to="/login"
-          class="
-            rounded-lg
-            bg-blue-600
-            px-4
-            py-2.5
-            text-sm
-            font-medium
-            text-white
-            transition
-
-            hover:bg-blue-500
-          "
-        >
+        <router-link to="/login" class="border border-[#6fae55] px-4 py-2 text-sm font-bold text-[#b7df9c] transition hover:bg-[#6fae55] hover:text-[#171a1b]">
           Entrar
         </router-link>
-
       </nav>
     </header>
 
-    <!-- HERO -->
-    <section
-      class="
-        relative
-        overflow-hidden
-        px-6
-        pb-24
-        pt-36
-        lg:px-8
-        lg:pb-32
-        lg:pt-44
-      "
-    >
-
-      <!-- Luz discreta -->
-      <div
-        class="
-          pointer-events-none
-          absolute
-          left-1/2
-          top-[-400px]
-          h-[700px]
-          w-[900px]
-          -translate-x-1/2
-          rounded-full
-          bg-blue-600/[0.08]
-          blur-[150px]
-        "
-      ></div>
-
-      <div
-        class="
-          relative
-          mx-auto
-          grid
-          max-w-7xl
-          items-center
-          gap-16
-          lg:grid-cols-[0.9fr_1.1fr]
-        "
-      >
-
-        <!-- TEXTO -->
-        <div>
-          <div
-            class="
-              mb-6
-              inline-flex
-              items-center
-              rounded-full
-              border
-              border-white/[0.08]
-              bg-white/[0.03]
-              px-3
-              py-1.5
-              text-xs
-              text-zinc-400
-            "
-          >
-            Plataforma de análise comercial
-          </div>
-
-          <h1
-            class="
-              max-w-3xl
-              text-5xl
-              font-semibold
-              leading-[1.05]
-              tracking-[-0.04em]
-              text-white
-
-              sm:text-6xl
-              lg:text-7xl
-            "
-          >
-            Transforme dados em decisões mais claras.
+    <section class="page-lines relative border-b border-white/[0.09] px-5 pb-16 pt-36 lg:px-8 lg:pb-24 lg:pt-44">
+      <div class="relative mx-auto grid max-w-7xl gap-14 lg:grid-cols-[.82fr_1.18fr] lg:items-center">
+        <div class="relative z-10">
+          <p class="mb-6 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-[#b7df9c]">
+            <span class="h-px w-8 bg-[#6fae55]"></span>
+            Organização de dados comerciais
+          </p>
+          <h1 class="max-w-2xl text-5xl font-semibold leading-[1.02] tracking-[-0.045em] text-[#f4f1e9] sm:text-6xl">
+            Uma base mais clara para decisões menos improvisadas.
           </h1>
-
-          <p
-            class="
-              mt-7
-              max-w-xl
-              text-base
-              leading-7
-              text-zinc-400
-
-              sm:text-lg
-            "
-          >
-            O CTI Insights organiza informações comerciais,
-            transforma planilhas em indicadores e ajuda sua
-            equipe a visualizar oportunidades com mais facilidade.
+          <p class="mt-7 max-w-xl text-base leading-7 text-[#a5aaa6] sm:text-lg">
+            O xInsight recebe sua planilha, identifica o que precisa de atenção e entrega uma leitura organizada da carteira comercial.
           </p>
-
-          <div
-            class="
-              mt-9
-              flex
-              flex-wrap
-              gap-3
-            "
-          >
-            <router-link
-              to="/login"
-              class="
-                rounded-lg
-                bg-blue-600
-                px-5
-                py-3
-                text-sm
-                font-medium
-                text-white
-                transition
-
-                hover:bg-blue-500
-              "
-            >
-              Acessar plataforma
+          <div class="mt-9 flex flex-wrap gap-4">
+            <router-link to="/login" class="bg-[#6fae55] px-5 py-3 text-sm font-bold text-[#101411] transition hover:bg-[#91c773]">
+              Acessar o painel
             </router-link>
-
-            <a
-              href="#produto"
-              class="
-                rounded-lg
-                border
-                border-white/[0.1]
-                bg-white/[0.02]
-                px-5
-                py-3
-                text-sm
-                font-medium
-                text-zinc-300
-                transition
-
-                hover:bg-white/[0.05]
-                hover:text-white
-              "
-            >
-              Conhecer produto
-            </a>
-          </div>
-
-          <!-- MINI BENEFÍCIOS -->
-          <div
-            class="
-              mt-10
-              flex
-              flex-wrap
-              gap-x-6
-              gap-y-3
-              text-sm
-              text-zinc-500
-            "
-          >
-            <span>Planilhas XLSX, XLS e CSV</span>
-            <span>Dashboard centralizado</span>
-            <span>Dados organizados</span>
+            <a href="#processo" class="border border-white/[0.14] px-5 py-3 text-sm font-bold text-[#d5d7d0] transition hover:border-[#6fae55] hover:text-[#b7df9c]">Conhecer o fluxo</a>
           </div>
         </div>
 
-        <!-- PAINEL VISUAL -->
-        <div
-          id="produto"
-          class="
-            relative
-          "
-        >
-
-          <div
-            class="
-              rounded-2xl
-              border
-              border-white/[0.08]
-              bg-[#111214]
-              p-4
-              shadow-[0_30px_80px_rgba(0,0,0,0.35)]
-            "
-          >
-
-            <!-- TOPO DO PAINEL -->
-            <div
-              class="
-                flex
-                items-center
-                justify-between
-                border-b
-                border-white/[0.06]
-                pb-4
-              "
-            >
-
-              <div>
-                <p
-                  class="
-                    text-sm
-                    font-medium
-                    text-white
-                  "
-                >
-                  Dashboard
-                </p>
-
-                <p
-                  class="
-                    mt-1
-                    text-xs
-                    text-zinc-500
-                  "
-                >
-                  Visão geral da base comercial
-                </p>
-              </div>
-
-              <div
-                class="
-                  rounded-lg
-                  border
-                  border-white/[0.08]
-                  bg-white/[0.03]
-                  px-3
-                  py-2
-                  text-xs
-                  text-zinc-400
-                "
-              >
-                Última atualização: hoje
-              </div>
-
-            </div>
-
-            <!-- KPI -->
-            <div
-              class="
-                mt-4
-                grid
-                gap-3
-                sm:grid-cols-3
-              "
-            >
-
-              <div
-                class="
-                  rounded-xl
-                  border
-                  border-white/[0.06]
-                  bg-[#0d0e10]
-                  p-4
-                "
-              >
-                <p
-                  class="
-                    text-xs
-                    text-zinc-500
-                  "
-                >
-                  Clientes
-                </p>
-
-                <p
-                  class="
-                    mt-3
-                    text-2xl
-                    font-semibold
-                    text-white
-                  "
-                >
-                  1.248
-                </p>
-
-                <p
-                  class="
-                    mt-1
-                    text-xs
-                    text-blue-400
-                  "
-                >
-                  +8,4% no período
-                </p>
-              </div>
-
-              <div
-                class="
-                  rounded-xl
-                  border
-                  border-white/[0.06]
-                  bg-[#0d0e10]
-                  p-4
-                "
-              >
-                <p
-                  class="
-                    text-xs
-                    text-zinc-500
-                  "
-                >
-                  Potencial alto
-                </p>
-
-                <p
-                  class="
-                    mt-3
-                    text-2xl
-                    font-semibold
-                    text-white
-                  "
-                >
-                  186
-                </p>
-
-                <p
-                  class="
-                    mt-1
-                    text-xs
-                    text-zinc-500
-                  "
-                >
-                  Clientes nível A
-                </p>
-              </div>
-
-              <div
-                class="
-                  rounded-xl
-                  border
-                  border-white/[0.06]
-                  bg-[#0d0e10]
-                  p-4
-                "
-              >
-                <p
-                  class="
-                    text-xs
-                    text-zinc-500
-                  "
-                >
-                  Segmentos
-                </p>
-
-                <p
-                  class="
-                    mt-3
-                    text-2xl
-                    font-semibold
-                    text-white
-                  "
-                >
-                  6
-                </p>
-
-                <p
-                  class="
-                    mt-1
-                    text-xs
-                    text-zinc-500
-                  "
-                >
-                  Categorias ativas
-                </p>
-              </div>
-
-            </div>
-
-            <!-- CONTEÚDO -->
-            <div
-              class="
-                mt-4
-                grid
-                gap-4
-                lg:grid-cols-[1.4fr_0.6fr]
-              "
-            >
-
-              <!-- GRÁFICO -->
-              <div
-                class="
-                  rounded-xl
-                  border
-                  border-white/[0.06]
-                  bg-[#0d0e10]
-                  p-5
-                "
-              >
-                <div
-                  class="
-                    flex
-                    items-center
-                    justify-between
-                  "
-                >
-                  <div>
-                    <p
-                      class="
-                        text-sm
-                        font-medium
-                        text-white
-                      "
-                    >
-                      Evolução de clientes
-                    </p>
-
-                    <p
-                      class="
-                        mt-1
-                        text-xs
-                        text-zinc-500
-                      "
-                    >
-                      Últimos 6 meses
-                    </p>
-                  </div>
-
-                  <span
-                    class="
-                      text-xs
-                      text-zinc-500
-                    "
-                  >
-                    Total
-                  </span>
-                </div>
-
-                <div
-                  class="
-                    mt-8
-                    flex
-                    h-52
-                    items-end
-                    gap-3
-                  "
-                >
-                  <div class="h-[32%] flex-1 rounded-t-md bg-blue-950"></div>
-                  <div class="h-[44%] flex-1 rounded-t-md bg-blue-900"></div>
-                  <div class="h-[53%] flex-1 rounded-t-md bg-blue-800"></div>
-                  <div class="h-[62%] flex-1 rounded-t-md bg-blue-700"></div>
-                  <div class="h-[78%] flex-1 rounded-t-md bg-blue-600"></div>
-                  <div class="h-[92%] flex-1 rounded-t-md bg-blue-500"></div>
-                </div>
-
-                <div
-                  class="
-                    mt-3
-                    flex
-                    justify-between
-                    text-[10px]
-                    text-zinc-600
-                  "
-                >
-                  <span>Abr</span>
-                  <span>Mai</span>
-                  <span>Jun</span>
-                  <span>Jul</span>
-                  <span>Ago</span>
-                  <span>Set</span>
-                </div>
-              </div>
-
-              <!-- PRIORIDADES -->
-              <div
-                class="
-                  rounded-xl
-                  border
-                  border-white/[0.06]
-                  bg-[#0d0e10]
-                  p-5
-                "
-              >
-                <p
-                  class="
-                    text-sm
-                    font-medium
-                    text-white
-                  "
-                >
-                  Prioridades
-                </p>
-
-                <p
-                  class="
-                    mt-1
-                    text-xs
-                    text-zinc-500
-                  "
-                >
-                  Distribuição da carteira
-                </p>
-
-                <div class="mt-6 space-y-5">
-
-                  <div>
-                    <div
-                      class="
-                        mb-2
-                        flex
-                        justify-between
-                        text-xs
-                      "
-                    >
-                      <span class="text-zinc-400">
-                        Nível A
-                      </span>
-
-                      <span class="text-white">
-                        186
-                      </span>
-                    </div>
-
-                    <div
-                      class="
-                        h-1.5
-                        rounded-full
-                        bg-white/[0.05]
-                      "
-                    >
-                      <div
-                        class="
-                          h-full
-                          w-[76%]
-                          rounded-full
-                          bg-blue-500
-                        "
-                      ></div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <div
-                      class="
-                        mb-2
-                        flex
-                        justify-between
-                        text-xs
-                      "
-                    >
-                      <span class="text-zinc-400">
-                        Nível B
-                      </span>
-
-                      <span class="text-white">
-                        124
-                      </span>
-                    </div>
-
-                    <div
-                      class="
-                        h-1.5
-                        rounded-full
-                        bg-white/[0.05]
-                      "
-                    >
-                      <div
-                        class="
-                          h-full
-                          w-[54%]
-                          rounded-full
-                          bg-blue-700
-                        "
-                      ></div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <div
-                      class="
-                        mb-2
-                        flex
-                        justify-between
-                        text-xs
-                      "
-                    >
-                      <span class="text-zinc-400">
-                        Nível C
-                      </span>
-
-                      <span class="text-white">
-                        83
-                      </span>
-                    </div>
-
-                    <div
-                      class="
-                        h-1.5
-                        rounded-full
-                        bg-white/[0.05]
-                      "
-                    >
-                      <div
-                        class="
-                          h-full
-                          w-[36%]
-                          rounded-full
-                          bg-zinc-600
-                        "
-                      ></div>
-                    </div>
-                  </div>
-
-                </div>
-
-              </div>
-
-            </div>
-
+        <div id="plataforma" class="relative mx-auto w-full max-w-3xl pt-8 lg:pt-0">
+          <div class="float-card float-card-one absolute -left-2 top-2 z-20 hidden border border-[#6fae55]/45 bg-[#191c1d] px-4 py-3 shadow-xl sm:block lg:-left-12">
+            <p class="text-[10px] font-bold uppercase tracking-[.14em] text-[#8f9792]">Conferência</p>
+            <p class="mt-1 text-sm font-bold text-[#b7df9c]">12 ajustes encontrados</p>
           </div>
 
-          <!-- SOMBRA -->
-          <div
-            class="
-              absolute
-              -bottom-10
-              left-10
-              right-10
-              -z-10
-              h-24
-              rounded-full
-              bg-blue-600/[0.08]
-              blur-3xl
-            "
-          ></div>
+          <div class="float-card float-card-two absolute -right-1 bottom-14 z-20 hidden border border-white/[0.13] bg-[#191c1d] px-4 py-3 shadow-xl sm:block lg:-right-10">
+            <p class="text-[10px] font-bold uppercase tracking-[.14em] text-[#8f9792]">Base analisada</p>
+            <p class="mt-1 text-sm font-bold text-[#dfe5db]">236 registros aprovados</p>
+          </div>
 
+          <div class="relative rounded-t-xl border-[7px] border-[#292d2e] bg-[#292d2e] p-2 shadow-[0_30px_70px_rgba(0,0,0,.48)]">
+            <div class="absolute left-1/2 top-[2px] h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-[#0c0d0e]"></div>
+            <div class="overflow-hidden rounded-[3px] border border-black/50 bg-[#111314]">
+              <div class="flex h-8 items-center gap-1.5 border-b border-white/[0.08] bg-[#181b1c] px-3">
+                <i class="h-1.5 w-1.5 rounded-full bg-[#527b70]"></i><i class="h-1.5 w-1.5 rounded-full bg-[#82a76d]"></i><i class="h-1.5 w-1.5 rounded-full bg-[#b7df9c]"></i>
+                <span class="ml-3 text-[9px] font-semibold tracking-wide text-[#838a86]">XINSIGHT / DASHBOARD</span>
+              </div>
+              <div class="grid min-h-[300px] grid-cols-[104px_1fr] sm:min-h-[360px] sm:grid-cols-[126px_1fr]">
+                <aside class="border-r border-white/[0.07] bg-[#151819] p-3">
+                  <div class="mb-7 text-[9px] font-bold tracking-[.15em] text-[#91c773]">XI</div>
+                  <div class="space-y-3 text-[9px] text-[#7f8984]">
+                    <p class="border-l-2 border-[#6fae55] pl-2 text-[#ece8de]">Visão geral</p>
+                    <p class="pl-2">Importações</p><p class="pl-2">Relatórios</p><p class="pl-2">Gráficos</p>
+                  </div>
+                </aside>
+                <div class="p-4 sm:p-5">
+                  <div class="flex items-start justify-between">
+                    <div><p class="text-[9px] uppercase tracking-[.15em] text-[#77807c]">Carteira comercial</p><h2 class="mt-1 text-sm font-bold text-[#f2eee6] sm:text-base">Visão geral</h2></div>
+                    <span class="border border-white/[0.1] px-2 py-1 text-[8px] text-[#9ba29d]">Setembro 2026</span>
+                  </div>
+                  <div class="mt-5 grid grid-cols-3 gap-2">
+                    <div class="border border-white/[0.08] bg-[#181b1c] p-2.5"><p class="text-[8px] text-[#818984]">CLIENTES</p><p class="mt-1 text-lg font-bold text-[#f2eee6]">248</p><p class="text-[8px] text-[#829e86]">+ 8 este mês</p></div>
+                    <div class="border border-white/[0.08] bg-[#181b1c] p-2.5"><p class="text-[8px] text-[#818984]">NÍVEL A</p><p class="mt-1 text-lg font-bold text-[#b7df9c]">64</p><p class="text-[8px] text-[#818984]">prioritários</p></div>
+                    <div class="border border-white/[0.08] bg-[#181b1c] p-2.5"><p class="text-[8px] text-[#818984]">PENDÊNCIAS</p><p class="mt-1 text-lg font-bold text-[#91c773]">12</p><p class="text-[8px] text-[#818984]">para revisar</p></div>
+                  </div>
+                  <div class="mt-4 grid gap-3 sm:grid-cols-[1.3fr_.7fr]">
+                    <div class="border border-white/[0.08] bg-[#181b1c] p-3"><p class="text-[9px] font-bold text-[#dfe5db]">Entradas por segmento</p><div class="mt-8 flex h-20 items-end gap-2"><span class="h-[35%] flex-1 bg-[#426a63]"></span><span class="h-[52%] flex-1 bg-[#527b70]"></span><span class="h-[44%] flex-1 bg-[#668b7d]"></span><span class="h-[75%] flex-1 bg-[#6fae55]"></span><span class="h-[61%] flex-1 bg-[#7c9b89]"></span></div></div>
+                    <div class="border border-white/[0.08] bg-[#181b1c] p-3"><p class="text-[9px] font-bold text-[#dfe5db]">Status</p><div class="mt-5 space-y-3 text-[8px]"><div><p class="flex justify-between text-[#9ba29d]"><span>Válidos</span><span>95%</span></p><i class="mt-1 block h-1 bg-[#527b70]"></i></div><div><p class="flex justify-between text-[#9ba29d]"><span>Revisar</span><span>5%</span></p><i class="mt-1 block h-1 w-[18%] bg-[#6fae55]"></i></div></div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mx-auto h-5 w-[88%] rounded-b-[50%] border-x-[7px] border-b-[7px] border-[#292d2e] bg-[#1b1e1f]"></div>
+          <div class="mx-auto h-8 w-[18%] border-x-[5px] border-[#292d2e] bg-[#25292a]"></div>
+          <div class="mx-auto h-2 w-[45%] rounded-t-md bg-[#303536]"></div>
         </div>
-
       </div>
-
     </section>
 
-    <!-- RECURSOS -->
-    <section
-      id="recursos"
-      class="
-        border-t
-        border-white/[0.06]
-        bg-[#0b0b0d]
-        px-6
-        py-24
-
-        lg:px-8
-        lg:py-28
-      "
-    >
-      <div
-        class="
-          mx-auto
-          max-w-7xl
-        "
-      >
-
-        <div
-          class="
-            max-w-2xl
-          "
-        >
-          <p
-            class="
-              text-sm
-              font-medium
-              text-blue-400
-            "
-          >
-            Recursos
-          </p>
-
-          <h2
-            class="
-              mt-3
-              text-3xl
-              font-semibold
-              tracking-tight
-              text-white
-
-              md:text-4xl
-            "
-          >
-            Tudo em um só lugar para entender sua base.
-          </h2>
-
-          <p
-            class="
-              mt-4
-              leading-7
-              text-zinc-400
-            "
-          >
-            Uma interface simples para transformar dados
-            dispersos em informações úteis para o negócio.
-          </p>
+    <section class="border-b border-white/[0.09] px-5 py-8 lg:px-8">
+      <div class="mx-auto grid max-w-7xl divide-y divide-white/[0.09] border-y border-white/[0.09] sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+        <div v-for="([valor, texto]) in beneficios" :key="valor" class="px-0 py-4 sm:px-5 sm:first:pl-0">
+          <p class="text-xs font-bold tracking-[.13em] text-[#b7df9c]">{{ valor }}</p><p class="mt-1 text-xs text-[#818984]">{{ texto }}</p>
         </div>
+      </div>
+    </section>
 
-        <div
-          class="
-            mt-12
-            grid
-            gap-5
-
-            md:grid-cols-3
-          "
-        >
-
-          <article
-            v-for="recurso in recursos"
-            :key="recurso.titulo"
-            class="
-              rounded-xl
-              border
-              border-white/[0.07]
-              bg-[#111214]
-              p-6
-              transition
-
-              hover:border-white/[0.12]
-              hover:bg-[#131416]
-            "
-          >
-            <div
-              class="
-                mb-8
-                flex
-                h-10
-                w-10
-                items-center
-                justify-center
-                rounded-lg
-                bg-blue-500/10
-                text-blue-400
-              "
-            >
-              <svg
-                class="h-5 w-5"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.8"
-              >
-                <path d="M5 12h14"/>
-                <path d="M12 5l7 7-7 7"/>
-              </svg>
-            </div>
-
-            <h3
-              class="
-                font-semibold
-                text-white
-              "
-            >
-              {{ recurso.titulo }}
-            </h3>
-
-            <p
-              class="
-                mt-3
-                text-sm
-                leading-6
-                text-zinc-500
-              "
-            >
-              {{ recurso.descricao }}
-            </p>
+    <section id="processo" class="page-lines px-5 py-16 lg:px-8 lg:py-20">
+      <div class="relative mx-auto max-w-7xl">
+        <div class="max-w-xl"><p class="text-[11px] font-bold uppercase tracking-[.18em] text-[#b7df9c]">Como funciona</p><h2 class="mt-3 text-3xl font-semibold tracking-[-.03em] text-[#f4f1e9] sm:text-4xl">Três etapas, sem complicar sua rotina.</h2></div>
+        <div class="mt-12 grid border-y border-white/[0.1] md:grid-cols-3 md:divide-x md:divide-white/[0.1]">
+          <article v-for="([numero, titulo, descricao]) in etapas" :key="numero" class="border-b border-white/[0.1] py-7 md:border-b-0 md:px-7 md:first:pl-0">
+            <p class="text-[11px] font-bold tracking-[.16em] text-[#91c773]">{{ numero }}</p><h3 class="mt-9 text-lg font-bold text-[#e9e7df]">{{ titulo }}</h3><p class="mt-3 max-w-xs text-sm leading-6 text-[#929a96]">{{ descricao }}</p>
           </article>
-
-        </div>
-
-      </div>
-    </section>
-
-    <!-- COMO FUNCIONA -->
-    <section
-      id="como-funciona"
-      class="
-        px-6
-        py-24
-
-        lg:px-8
-        lg:py-28
-      "
-    >
-      <div
-        class="
-          mx-auto
-          max-w-7xl
-        "
-      >
-
-        <div
-          class="
-            grid
-            gap-14
-
-            lg:grid-cols-[0.7fr_1.3fr]
-          "
-        >
-
-          <div>
-            <p
-              class="
-                text-sm
-                font-medium
-                text-blue-400
-              "
-            >
-              Como funciona
-            </p>
-
-            <h2
-              class="
-                mt-3
-                text-3xl
-                font-semibold
-                tracking-tight
-                text-white
-
-                md:text-4xl
-              "
-            >
-              Da planilha ao insight em três etapas.
-            </h2>
-
-            <p
-              class="
-                mt-4
-                max-w-md
-                leading-7
-                text-zinc-400
-              "
-            >
-              Um processo simples pensado para reduzir
-              retrabalho e facilitar a leitura das informações.
-            </p>
-          </div>
-
-          <div
-            class="
-              grid
-              gap-4
-
-              md:grid-cols-3
-            "
-          >
-
-            <article
-              v-for="etapa in etapas"
-              :key="etapa.numero"
-              class="
-                rounded-xl
-                border
-                border-white/[0.07]
-                bg-[#111214]
-                p-6
-              "
-            >
-              <span
-                class="
-                  text-sm
-                  font-medium
-                  text-blue-400
-                "
-              >
-                {{ etapa.numero }}
-              </span>
-
-              <h3
-                class="
-                  mt-8
-                  text-lg
-                  font-semibold
-                  text-white
-                "
-              >
-                {{ etapa.titulo }}
-              </h3>
-
-              <p
-                class="
-                  mt-3
-                  text-sm
-                  leading-6
-                  text-zinc-500
-                "
-              >
-                {{ etapa.descricao }}
-              </p>
-            </article>
-
-          </div>
-
-        </div>
-
-      </div>
-    </section>
-
-    <!-- CTA FINAL -->
-    <section
-      class="
-        px-6
-        pb-24
-
-        lg:px-8
-        lg:pb-28
-      "
-    >
-      <div
-        class="
-          mx-auto
-          max-w-7xl
-          rounded-2xl
-          border
-          border-white/[0.07]
-          bg-[#111214]
-          p-8
-
-          md:p-12
-        "
-      >
-        <div
-          class="
-            flex
-            flex-col
-            justify-between
-            gap-8
-
-            md:flex-row
-            md:items-center
-          "
-        >
-          <div>
-            <h2
-              class="
-                max-w-2xl
-                text-3xl
-                font-semibold
-                tracking-tight
-                text-white
-              "
-            >
-              Seus dados podem dizer mais.
-            </h2>
-
-            <p
-              class="
-                mt-3
-                max-w-xl
-                text-zinc-400
-              "
-            >
-              Organize sua base e acompanhe indicadores
-              importantes em um único painel.
-            </p>
-          </div>
-
-          <router-link
-            to="/login"
-            class="
-              shrink-0
-              rounded-lg
-              bg-blue-600
-              px-6
-              py-3
-              text-sm
-              font-medium
-              text-white
-              transition
-
-              hover:bg-blue-500
-            "
-          >
-            Entrar no CTI Insights
-          </router-link>
         </div>
       </div>
     </section>
 
-    <!-- FOOTER -->
-    <footer
-      class="
-        border-t
-        border-white/[0.06]
-        px-6
-        py-8
-
-        lg:px-8
-      "
-    >
-      <div
-        class="
-          mx-auto
-          flex
-          max-w-7xl
-          flex-col
-          gap-3
-          text-xs
-          text-zinc-600
-
-          sm:flex-row
-          sm:items-center
-          sm:justify-between
-        "
-      >
-        <span>CTI Insights © 2026</span>
-
-        <span>
-          Dados organizados para decisões melhores.
-        </span>
-      </div>
-    </footer>
-
+    <footer class="border-t border-white/[0.09] px-5 py-7 text-xs text-[#737b77] lg:px-8"><div class="mx-auto flex max-w-7xl flex-col justify-between gap-2 sm:flex-row"><span>xInsight · 2026</span><span>Dados organizados para decisões reais.</span></div></footer>
   </main>
 </template>
+
+<style scoped>
+.page-lines {
+  background-image: linear-gradient(90deg, transparent calc(50% - 1px), rgba(255, 255, 255, .055) calc(50% - 1px), rgba(255, 255, 255, .055) 50%, transparent 50%);
+}
+
+.float-card {
+  animation: deslocar 5s ease-in-out infinite;
+}
+
+.float-card-two {
+  animation-delay: -2.5s;
+}
+
+@keyframes deslocar {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .float-card { animation: none; }
+}
+</style>

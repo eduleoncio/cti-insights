@@ -8,7 +8,7 @@
     sans-serif;
 
   color: #f8fafc;
-  background: #050505;
+  background: #0d0f10;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -23,14 +23,14 @@
 
 html {
   scroll-behavior: smooth;
-  background: #050505;
+  background: #0d0f10;
 }
 
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background: #050505;
+  background: #0d0f10;
 }
 
 button,
@@ -45,7 +45,7 @@ button {
 }
 
 ::selection {
-  background: rgba(56, 189, 248, 0.3);
+  background: rgba(111, 174, 85, 0.4);
   color: white;
 }
 
@@ -55,7 +55,7 @@ button {
 }
 
 ::-webkit-scrollbar-track {
-  background: #050505;
+  background: #0d0f10;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -64,5 +64,9 @@ button {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #38bdf8;
+  background: #6fae55;
+}
+
+.page-lines {
+  background-image: linear-gradient(90deg, transparent calc(50% - 1px), rgba(255, 255, 255, .045) calc(50% - 1px), rgba(255, 255, 255, .045) 50%, transparent 50%);
 }

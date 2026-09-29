@@ -1,0 +1,26 @@
+{\rtf1\ansi\deff0
+{\fonttbl{\f0 Arial;}}
+\f0\fs24
+\b Atividade Individual - Validador de Planilha com Pinia\b0\par
+\par
+\b Objetivo\b0\par
+O sistema importa uma planilha Excel, armazena os dados temporariamente no Pinia, realiza validacoes e exibe um relatorio de erros.\par
+\par
+\b Fluxo\b0\par
+Excel -> tela de Upload -> store Pinia -> tela de Relatorios.\par
+\par
+\b State\b0\par
+arquivo, dadosOriginais, dadosTratados, erros, carregando e processado.\par
+\par
+\b Getters\b0\par
+Total de registros, validos, com erro, ocorrencias de erro e agrupamento por tipo.\par
+\par
+\b Actions\b0\par
+Selecao e validacao do arquivo, leitura da planilha, tratamento dos dados, validacao e verificacao de duplicidades.\par
+\par
+\b Validacoes implementadas\b0\par
+Campos obrigatorios vazios; espacos desnecessarios; registros duplicados; e-mails invalidos; dados fora do padrao; textos que precisam de padronizacao; formato de arquivo invalido; planilha vazia e colunas obrigatorias ausentes.\par
+\par
+\b Relatorio\b0\par
+A tela de Relatorios exibe nome do arquivo, total de registros, registros validos, registros com erro, quantidade por tipo de erro e detalhamento com linha, campo, tipo e descricao.\par
+}
